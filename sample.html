@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
 <body>
+	<audio id="myAudio" src="https://kekashiftchecker.github.io/Naiyo Lagda.mp3" controls></audio>
+	<img id="coverImage">
 
-<audio controls>
-  <source src="https://kekashiftchecker.github.io/Naiyo Lagda.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-</audio>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+	<script>
+		const audio = document.getElementById('myAudio');
+		const coverImage = document.getElementById('coverImage');
 
+		// Use ID3.js library to get the metadata of the MP3 file
+		jsmediatags.read(audio.src, {
+			onSuccess: function(tag) {
+				const image = tag.tags.picture;
+				if (image) {
+					// Create a blob URL for the cover image
+					const blob = new Blob([image.data], { type: image.format });
+					const url = URL.createObjectURL(blob);
+
+					// Set the cover image
+					coverImage.src = url;
+				}
+			},
+			onError: function(error) {
+				console.log(error);
+			}
+		});
+	</script>
 </body>
 </html>
